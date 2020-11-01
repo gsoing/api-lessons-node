@@ -1,0 +1,22 @@
+{
+  "name": "api-lessons-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**"
+  },
+  "author": "guillaume.soing@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "config": "3.3.2",
+    "express": "4.17.1",
+    "express-validator": "6.6.1",
+    "mongoose": "5.10.11"
+  },
+  "devDependencies": {
+    "eslint": "7.11.0",
+    "nodemon": "2.0.6"
+  }
+}
