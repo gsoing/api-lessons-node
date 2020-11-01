@@ -4,7 +4,7 @@ const Tweets = require('../models/tweet');
 const createTweet = async (tweet) => {
     return await Tweets.create({
         text: tweet.text,
-        username: tweet.username,
+        user: tweet.user,
         source: tweet.source
     });
 }

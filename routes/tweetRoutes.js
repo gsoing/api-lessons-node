@@ -29,7 +29,7 @@ const handleError = (err, req, res, next) => {
 }
 
 router.route('/tweets')
-    .post([body('text').isString(), body('username').isString()], async (req, res) => {
+    .post([body('text').isString(), body('user.nickname').isString(), body('user.mail').isEmail()], async (req, res) => {
         const error = manageValidation(req);
         if (error) {
             res.status(error.returnCode).json( error.body );
