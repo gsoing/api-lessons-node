@@ -1,3 +1,6 @@
 app:
     port: 8080
     database: "mongodb://localhost:27017/tweets"
+    lock: 
+        redis: redis://localhost
+        ttl: 30000

@@ -1,5 +1,8 @@
 const { NotFoundError } = require('../errors/errors');
 const Tweets = require('../models/tweet');
+const lockService = require('./lockService');
+const util = require('util');
+const setTimeoutPromise = util.promisify(setTimeout);
 
 const createTweet = async (tweet) => {
     return await Tweets.create({
@@ -26,9 +29,21 @@ const getTweet = async (id) => {
 }
 
 const updateTweet = async (id, tweet) => {
-    const tweetModel = await getTweet(id);
-    tweetModel.text = tweet.text;
-    return tweetModel.save();
+    let lockObject;
+    try {
+        lockObject = await lockService.lock(id);
+
+        // simulate a long update
+        await setTimeoutPromise(10000);
+
+        const tweetModel = await getTweet(id);
+        tweetModel.text = tweet.text;
+        return tweetModel.save();
+    } finally {
+        if (lockObject) {
+            lockObject.unlock();
+        }
+    }
 }
 
 exports.createTweet = createTweet;

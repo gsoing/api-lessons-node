@@ -4,3 +4,15 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+  redis:
+    image: redis
+    ports: 
+      - "6379:6379"
+  server:
+    build: ./app 
+    environment:
+      - NODE_ENV=docker
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:8080"

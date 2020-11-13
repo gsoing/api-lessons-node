@@ -1,4 +1,4 @@
-class DefaultHttpError extends Error {
+class BasicHttpError extends Error {
     constructor(httpStatus, body) {
         super('default http error');
         this.httpStatus = httpStatus;
@@ -7,23 +7,44 @@ class DefaultHttpError extends Error {
     }
 }
 
-class BadRequestError extends Error {
-    constructor(errorMessage) {
-        super(errorMessage);
+class AbstractHttpError extends Error {
+    constructor(httpStatus, errorMessage, errorCode) {
+        super(`Raised HTTP ${httpStatus} error code`);
+        this.httpStatus = httpStatus;
         this.errorMessage = errorMessage;
-        this.errorCode = 'err.func.badrequest'
-        this.httpStatus = 400;
+        this.errorCode = errorCode;
         Error.captureStackTrace(this, this.constructor);
     }
 }
 
-class NotFoundError extends Error {
+
+class BadRequestError extends AbstractHttpError {
+    constructor(errorMessage) {
+        super(400, errorMessage, 'err.func.badrequest');
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+class NotFoundError extends AbstractHttpError {
     constructor(entityType, entityId) {
         const errorMessage = `${entityType} with id ${entityId} not found`;
-        super(errorMessage);
-        this.errorMessage = errorMessage;
-        this.errorCode = 'err.func.notfound'
-        this.httpStatus = 404;
+        super(404, errorMessage, 'err.func.notfound');
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+class ConflictError extends AbstractHttpError {
+    constructor(entityId) {
+        const errorMessage = `entity ${entityId} has a conflict`;
+        super(409, errorMessage, errorMessage, 'err.func.conflict');
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+class LockEntityError extends AbstractHttpError {
+    constructor(entityId) {
+        const errorMessage = `entity ${entityId} is locked`;
+        super(409, errorMessage, 'err.func.locked');
         Error.captureStackTrace(this, this.constructor);
     }
 }
@@ -31,5 +52,8 @@ class NotFoundError extends Error {
 module.exports = {
     BadRequestError,
     NotFoundError,
-    DefaultHttpError,
+    BasicHttpError,
+    LockEntityError,
+    ConflictError,
+    AbstractHttpError
 };

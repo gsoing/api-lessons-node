@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/**"
+    "lint": "eslint ./ --ignore-pattern *node_modules*"
   },
   "author": "guillaume.soing@gmail.com",
   "license": "ISC",
@@ -13,7 +14,12 @@
     "config": "3.3.2",
     "express": "4.17.1",
     "express-validator": "6.6.1",
-    "mongoose": "5.10.11"
+    "js-yaml": "^3.14.0",
+    "mongoose": "5.10.11",
+    "morgan": "^1.10.0",
+    "redis": "3.0.2",
+    "redis-lock": "^0.1.4",
+    "redlock": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "7.11.0",
